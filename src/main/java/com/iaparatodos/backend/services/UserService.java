@@ -1,0 +1,24 @@
+package com.iaparatodos.backend.services;
+
+import com.iaparatodos.backend.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+@Primary
+@RequiredArgsConstructor
+public class UserService implements UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Usuario no encontrado: " + email));
+    }
+}
