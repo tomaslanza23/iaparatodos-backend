@@ -43,7 +43,6 @@ public class ExportService {
         try {
             Sheet sheet = workbook.createSheet("Inscripciones");
 
-            // Encabezado
             CellStyle headerStyle = workbook.createCellStyle();
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
@@ -56,7 +55,6 @@ public class ExportService {
                 cell.setCellStyle(headerStyle);
             }
 
-            // Datos paginados
             int rowNum = 1;
             int page   = 0;
             Slice<Inscripcion> slice;
@@ -100,7 +98,7 @@ public class ExportService {
             return out.toByteArray();
 
         } finally {
-            workbook.dispose(); // elimina archivos temporales en disco
+            workbook.dispose();
             workbook.close();
         }
     }

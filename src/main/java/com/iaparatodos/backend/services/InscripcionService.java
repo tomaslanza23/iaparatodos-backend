@@ -17,28 +17,20 @@ public class InscripcionService {
 
     @Transactional
     public InscripcionResponse inscribir(InscripcionRequest request) {
-
-        // Validación: emails coinciden
         if (!request.getEmail().equalsIgnoreCase(request.getConfirmacionEmail())) {
             throw new IllegalArgumentException("El email y la confirmación no coinciden");
         }
-
-        // Validación: DNI duplicado
         if (inscripcionRepository.existsByDni(request.getDni())) {
             throw new IllegalArgumentException("Ya existe una inscripción con ese DNI");
         }
-
-        // Validación: email duplicado
         if (inscripcionRepository.existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("Ya existe una inscripción con ese email");
         }
 
-        // Validación: barrio requerido si CABA
         if (request.getProvincia() == Provincia.CABA && request.getBarrioCaba() == null) {
             throw new IllegalArgumentException("Seleccioná el barrio de CABA");
         }
 
-        // Validación: localidad requerida si Buenos Aires
         if (request.getProvincia() == Provincia.BUENOS_AIRES && request.getLocalidadAmba() == null) {
             throw new IllegalArgumentException("Seleccioná la localidad del AMBA");
         }
